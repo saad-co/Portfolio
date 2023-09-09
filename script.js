@@ -47,14 +47,14 @@ function firstPageAnime() {
       stagger: 0.2,
       delay: -1,
       ease: Expo.easeInOut,
-      scrollTrigger:{
-        trigger:".bounding",
-        scroller:"body",
-        start:"top 100%",
-        end:"bottom 10%",
-        stagger:0.5,
-        scrub:2
-      }
+      scrollTrigger: {
+        trigger: ".bounding",
+        scroller: "body",
+        start: "top 100%",
+        end: "bottom 10%",
+        stagger: 0.5,
+        scrub: 2,
+      },
     })
 
     .from(".heroFooter", {
@@ -141,33 +141,67 @@ function showNavItems() {
       // Add a ScrollTrigger to reverse the animation when scrolling
       if (checkWidth()) {
         const triggerElement = document.querySelector(".nav .navItems");
-
-        ScrollTrigger.create({
-          trigger: triggerElement,
-          scroller: "body",
-          start: "top  0%",
-          end: "top  -200%",
-          // markers: true,
-          // onEnter: () => {
-          //   // Animation triggers when entering the trigger element
-          // },
-          onLeaveBack: () => {
-            menu.style.opacity = 1;
-            gsap.to(navItems, {
-              opacity: 0,
-              y: 0,
-              duration: 0.3,
-              stagger: 0.2,
-            });
-          },
-        });
       }
     },
+  });
+  var rev = document.querySelector("#revert");
+  rev.addEventListener("click", function () {
+    gsap.to(navItems, {
+      opacity: 0,
+      y: 30,
+      duration: 0.1,
+      stagger: 0.2,
+    });
+    menu.style.opacity = 1;
+  });
+}
+
+function mblnav() {
+  var navbar = document.querySelector(".nav");
+  // navbar.style.display = "none";
+  var navtl = gsap.timeline();
+  navtl.to(navbar, {
+    // display:"none",
+    y: -100,
+    ease: Expo.easeInOut,
+    stagger: 0.2,
+    duration: 1,
+  });
+
+  navtl.to(".navItemMobile", {
+    display: "block",
+    y: 0,
+    duration: 1.3,
+    stagger: 0.3,
+    delay: -1,
+    ease: Expo.easeInOut,
+  });
+
+  var closing = document.querySelector("#closebtn");
+
+  closing.addEventListener("click", function () {
+    navtl.to(navbar, {
+      // display:"none",
+      y: 0,
+      ease: Expo.easeInOut,
+      stagger: 0.2,
+      duration: 1,
+    });
+
+    navtl.to(".navItemMobile", {
+      // display: "none",
+      y: -1000,
+      duration: 1,
+      stagger: 0.3,
+      ease: Expo.easeInOut,
+    });
   });
 }
 
 menu.addEventListener("click", function () {
   if (checkWidth()) {
     showNavItems();
+  } else {
+    mblnav();
   }
 });
